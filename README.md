@@ -1,6 +1,6 @@
 # Sistema de Reconocimiento Facial para Asistencias
 
-Proyecto de la materia Construcción de Software (UNEMI). Es una página web hecha en Django que usa la cámara para reconocer a las personas y registrar su asistencia en PostgreSQL.
+Proyecto de la materia Construcción de Software de la UNEMI. Es una página web hecha en Django que usa la cámara para reconocer a las personas y registrar su asistencia en PostgreSQL.
 
 Integrantes:
 - Lino Diaz Isaac Giovanny
@@ -12,10 +12,10 @@ Integrantes:
 
 - Muestra la cámara en vivo en el navegador.
 - Detecta los rostros y los reconoce con OpenCV.
-- Cuando reconoce a alguien, guarda su asistencia del día (solo una vez por día).
+- Cuando reconoce a alguien, guarda su asistencia del día, solo una vez por día.
 - Marca si la persona llegó puntual o atrasada según la hora límite.
 - Permite registrar personas nuevas desde la cámara.
-- Tiene un historial con filtros y se puede exportar a Excel (CSV).
+- Tiene un historial con filtros y se puede exportar a Excel en formato CSV.
 
 Para la detección usamos el modelo YuNet y para el reconocimiento el modelo SFace, los dos vienen incluidos en OpenCV. Antes de detectar se mejora la iluminación de la imagen para que funcione mejor con poca luz.
 
@@ -49,7 +49,7 @@ pip install -r requirements.txt
 python descargar_modelos.py
 ```
 
-4. Hacer una copia de `.env.example` con el nombre `.env` y poner la contraseña de PostgreSQL en `DB_PASSWORD`.
+4. Hacer una copia de .env.example con el nombre .env y poner la contraseña de PostgreSQL en DB_PASSWORD.
 
 5. Crear las tablas y levantar el servidor:
 
@@ -72,10 +72,10 @@ python manage.py test
 
 ## Carpetas principales
 
-- `config/`: configuración de Django.
-- `asistencia/`: la aplicación (modelos, vistas, plantillas).
-- `asistencia/vision/`: todo lo de OpenCV (cámara, detección y reconocimiento).
-- `modelos/`: aquí se guardan los modelos descargados.
+- config: configuración de Django.
+- asistencia: la aplicación con los modelos, vistas y plantillas.
+- asistencia/vision: todo lo de OpenCV, es decir la cámara, la detección y el reconocimiento.
+- modelos: aquí se guardan los modelos descargados.
 
 ## Nota
 
