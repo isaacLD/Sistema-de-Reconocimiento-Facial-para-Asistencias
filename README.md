@@ -3,11 +3,10 @@
 Proyecto de la materia Construcción de Software (UNEMI). Es una página web hecha en Django que usa la cámara para reconocer a las personas y registrar su asistencia en PostgreSQL.
 
 Integrantes:
-- 
-- 
-- 
-- 
-- 
+- Lino Diaz Isaac Giovanny
+- Chancay Rosel Angel Ernesto
+- Keni Daniel Gómez Méndez
+- Camilo Andres Rosero Mera
 
 ## Qué hace
 
