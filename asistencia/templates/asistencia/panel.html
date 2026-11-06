@@ -1,0 +1,63 @@
+{% extends "asistencia/base.html" %}
+{% block titulo %}Panel | Asistencia Facial{% endblock %}
+{% block contenido %}
+<div class="tarjetas">
+  <div class="tarjeta"><span id="presentes">0</span><small>Presentes</small></div>
+  <div class="tarjeta"><span id="puntuales">0</span><small>Puntuales</small></div>
+  <div class="tarjeta atrasado"><span id="atrasados">0</span><small>Atrasados</small></div>
+  <div class="tarjeta"><span id="ausentes">0</span><small>Ausentes</small></div>
+</div>
+
+<div class="rejilla">
+  <section class="caja">
+    <h2>Cámara en vivo</h2>
+    <img class="video" src="{% url 'video' %}" alt="Video en tiempo real con detección de rostros">
+    <p class="nota">Verde: asistencia registrada · Amarillo: confirmando · Rojo: desconocido.
+      Hora límite de entrada: <b>{{ hora_limite }}</b></p>
+  </section>
+
+  <section class="caja">
+    <h2>Asistencias de hoy</h2>
+    <table>
+      <thead><tr><th>Hora</th><th>Nombre</th><th>Estado</th><th>Similitud</th></tr></thead>
+      <tbody id="tabla-hoy"><tr><td colspan="4" class="vacio">Aún no hay registros.</td></tr></tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const filas = document.getElementById("tabla-hoy");
+
+  async function actualizar() {
+    try {
+      const datos = await (await fetch("{% url 'api_hoy' %}")).json();
+      document.getElementById("presentes").textContent = datos.presentes;
+      document.getElementById("puntuales").textContent = datos.puntuales;
+      document.getElementById("atrasados").textContent = datos.atrasados;
+      document.getElementById("ausentes").textContent = Math.max(datos.total_personas - datos.presentes, 0);
+
+      filas.replaceChildren();
+      if (!datos.registros.length) {
+        filas.innerHTML = '<tr><td colspan="4" class="vacio">Aún no hay registros.</td></tr>';
+        return;
+      }
+      for (const r of datos.registros) {
+        const tr = document.createElement("tr");
+        for (const valor of [r.hora, r.nombre, r.estado, r.similitud + "%"]) {
+          const td = document.createElement("td");
+          td.textContent = valor;
+          tr.appendChild(td);
+        }
+        tr.children[2].className = r.estado === "Atrasado" ? "chip atrasado" : "chip puntual";
+        filas.appendChild(tr);
+      }
+    } catch (e) {
+      console.error("No se pudo actualizar el panel", e);
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 3000);
+</script>
+{% endblock %}

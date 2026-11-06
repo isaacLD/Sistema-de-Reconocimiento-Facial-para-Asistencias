@@ -1,0 +1,32 @@
+{% extends "asistencia/base.html" %}
+{% block titulo %}Personas | Asistencia Facial{% endblock %}
+{% block contenido %}
+<section class="caja">
+  <div class="encabezado">
+    <h2>Personas registradas</h2>
+    <a class="boton" href="{% url 'registrar' %}">+ Registrar persona</a>
+  </div>
+  <table>
+    <thead><tr><th>Nombre</th><th>Cédula</th><th>Curso</th><th>Muestras</th><th></th></tr></thead>
+    <tbody>
+    {% for p in personas %}
+      <tr>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.cedula }}</td>
+        <td>{{ p.curso|default:"—" }}</td>
+        <td>{{ p.rostros.all|length }}</td>
+        <td>
+          <form method="post" action="{% url 'eliminar_persona' p.pk %}"
+                onsubmit="return confirm('¿Eliminar a {{ p.nombre|escapejs }} y sus asistencias?')">
+            {% csrf_token %}
+            <button class="peligro">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="vacio">No hay personas registradas.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

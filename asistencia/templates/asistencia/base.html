@@ -1,0 +1,29 @@
+{% load static %}<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Asistencia Facial{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'asistencia/estilos.css' %}">
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="{% url 'panel' %}">Asistencia Facial</a>
+    <nav>
+      {% with n=request.resolver_match.url_name %}
+      <a href="{% url 'panel' %}" {% if n == 'panel' %}class="activo"{% endif %}>Panel</a>
+      <a href="{% url 'personas' %}" {% if n == 'personas' or n == 'registrar' %}class="activo"{% endif %}>Personas</a>
+      <a href="{% url 'historial' %}" {% if n == 'historial' %}class="activo"{% endif %}>Historial</a>
+      {% endwith %}
+    </nav>
+  </header>
+
+  <main class="contenedor">
+    {% for m in messages %}
+      <div class="alerta {{ m.tags }}">{{ m }}</div>
+    {% endfor %}
+    {% block contenido %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

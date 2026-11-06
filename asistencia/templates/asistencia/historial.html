@@ -1,0 +1,31 @@
+{% extends "asistencia/base.html" %}
+{% block titulo %}Historial | Asistencia Facial{% endblock %}
+{% block contenido %}
+<section class="caja">
+  <h2>Historial de asistencias</h2>
+  <form method="get" class="filtros">
+    <label>Desde {{ form.desde }}</label>
+    <label>Hasta {{ form.hasta }}</label>
+    <label>Persona {{ form.persona }}</label>
+    <button type="submit">Filtrar</button>
+    <button type="submit" name="formato" value="csv" class="secundario">Exportar a Excel (CSV)</button>
+  </form>
+  <table>
+    <thead><tr><th>Fecha</th><th>Hora</th><th>Nombre</th><th>Curso</th><th>Estado</th><th>Similitud</th></tr></thead>
+    <tbody>
+    {% for a in registros %}
+      <tr>
+        <td>{{ a.fecha|date:"d/m/Y" }}</td>
+        <td>{{ a.hora|time:"H:i:s" }}</td>
+        <td>{{ a.persona.nombre }}</td>
+        <td>{{ a.persona.curso|default:"—" }}</td>
+        <td><span class="chip {% if a.estado == 'ATRASADO' %}atrasado{% else %}puntual{% endif %}">{{ a.get_estado_display }}</span></td>
+        <td>{% widthratio a.similitud 1 100 %}%</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="vacio">No hay asistencias con esos filtros.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

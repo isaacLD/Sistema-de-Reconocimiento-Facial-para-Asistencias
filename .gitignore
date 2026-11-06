@@ -1,0 +1,20 @@
+# Entorno virtual (la guía pide NO subirlo)
+venv/
+.venv/
+env/
+
+# Configuración local con contraseñas
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Modelos descargados (se obtienen con descargar_modelos.py)
+modelos/*.onnx
+
+# Editores / sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

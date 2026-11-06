@@ -1,0 +1,34 @@
+{% extends "asistencia/base.html" %}
+{% block titulo %}Registrar persona | Asistencia Facial{% endblock %}
+{% block contenido %}
+<div class="rejilla">
+  <section class="caja">
+    <h2>Registrar persona</h2>
+    <form method="post" id="form-registro">
+      {% csrf_token %}
+      {% for campo in form %}
+        <label>{{ campo.label }}
+          {{ campo }}
+          {% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}
+        </label>
+      {% endfor %}
+      <p class="nota">Al presionar el botón, mira a la cámara unos segundos. Se tomarán
+        varias muestras de tu rostro. Debe haber <b>una sola persona</b> en la imagen.</p>
+      <button type="submit" id="btn-registrar">Capturar rostro y registrar</button>
+    </form>
+  </section>
+  <section class="caja">
+    <h2>Vista de la cámara</h2>
+    <img class="video" src="{% url 'video' %}" alt="Vista previa de la cámara">
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  document.getElementById("form-registro").addEventListener("submit", () => {
+    const boton = document.getElementById("btn-registrar");
+    boton.disabled = true;
+    boton.textContent = "Capturando… mira a la cámara";
+  });
+</script>
+{% endblock %}
